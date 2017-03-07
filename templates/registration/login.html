@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<title>用户认证系统</title>
+<link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/tic.css" />
+<script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+<style type="text/css">
+.inputDivNew {
+	position: absolute;
+	width: 250px;
+	height: 215px;
+	z-index: 999;
+	top: 190px;
+	border-radius: 4px;
+}
+
+.inputDivNew2 {
+	position: absolute;
+	width: 250px;
+	height: 215px;
+	background-color: rgba(255, 255, 255, 0.6);
+	background-color: #ffffff;
+	filter: alpha(opacity = 60); /* IE */
+	-moz-opacity: 0.6; /* Moz + FF */
+	opacity: 0.6; /* 支持CSS3的浏览器（FF 1.5也支持）*/
+	border: 1px solid #ccc;
+	z-index: 99;
+	top: 190px;
+	border-radius: 4px;
+}
+
+.userInput {
+	height: 25px;
+	line-height: 25px;
+	border-radius: 2px;
+	background:url("/static/images/userinput.png") no-repeat 5px 4px #fff;
+	text-indent: 25px;
+}
+
+.pwdInput {
+	height: 25px;
+	line-height: 25px;
+	border-radius: 2px;
+	background:url("/static/images/pwdinput.png") no-repeat 5px 4px #fff;
+	text-indent: 25px;
+}
+
+.codeInput {
+	height: 25px;
+	line-height: 25px;
+	width: 60px;
+	border-radius: 2px;
+	text-indent: 5px;
+}
+
+.loginBtn {
+	background: #a19276;
+	width: 200px;
+	color: #fff;
+	font-weight: bold;
+	line-height: 30px;
+	border-radius: 2px;
+	font-family: 微软雅黑;
+}
+
+.divTit {
+	text-align: center;
+	color: #353535;
+	font-size: 16px;
+	font-weight: bold;
+	font-family: 微软雅黑;
+	word-spacing: 2px;
+	letter-spacing: 2px;
+}
+
+.errorMsg{
+	font-weight: bold;
+	font-size:14px;
+}
+</style>
+</head>
+<body>
+    <form id="loginForm" action="." method="post">
+    {% csrf_token %}
+         <div class="loginDiv">
+         	   <div class="tleft">
+         	   		<div style="" class="space1"><!--  --></div>
+         	   		<div></div>
+         	   </div>	
+         	   <div class="tright" style="width:300px;">
+         	   	   <div style="height:50px;" class=""><!--  --></div>
+	               <div class="inputDivNew" style="">
+	               		<div style="height: 10px;"><!--  --></div>
+	               		<div style="" class="divTit">用户认证系统</div>
+	               		<div style="height: 5px;"><!--  --></div>
+	               		<table class="logintable" style="" cellpadding="0" cellspacing="0" border="0">
+	               			<tr style="">
+	               				<td class="textTd" align="right"><span class="textSpan"><!--  --></span></td>
+	               				<td colspan="2">{{ form.username }}</td>
+	               			</tr>
+	               			<tr style="height:40px;">
+	               				<td class="textTd" align="right"><span class="textSpan"><!--  --></span></td>
+	               				<td colspan="2">{{ form.password }}</td>
+	               			</tr>
+	               			<tr style="height:40px;">
+	               				<td class="textTd" align="right"><span class="textSpan"><!--  --></span></td>
+	               				<td style="width: 60px;"><input type="text" id="codeInput" class="codeInput" maxlength="4"/></td>
+	               				<td style="">
+	               					<input type="text"  readonly="readonly" id="checkJsCode" class="codeUnchanged" style="height:25px;width:70px;background-color: #c2b39e;color: #574b1e;" onclick="createCode()"/>
+	               					&nbsp;<a href="javascript:void(0)" onclick="createCode()">换一张</a>
+	               				</td>
+	               			</tr>
+	               		</table>
+	               		<div style="margin-top: 5px;text-align:center;">
+		               		<a class="loginBtn" href="javascript:void(0)" onclick="posLogin()">登&nbsp;&nbsp;陆</a>
+		               </div>
+		               <div style="text-align: left;margin-left: 30px;" class="mt5">
+		               		<span style="color: red;" id="errorMsg" class="errorMsg">  {% if form.errors %}登陆失败{% endif %}</span>
+		               </div>
+	               </div>
+	               <div class="inputDivNew2"><!--  --></div>
+               </div>
+         </div>
+       <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+	
+<script type="text/javascript">
+/*js验证码相关*/
+var jscode; //在全局 定义验证码  
+
+function initialize(){
+	createCode();
+    $("#id_username").addClass("userInput");
+    $("#id_password").addClass("pwdInput");
+
+}
+
+function createCode() {
+  jscode = "";
+  var codeLength = 4;//验证码的长度  
+  var checkCode = document.getElementById("checkJsCode");
+  var selectChar = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);//所有候选组成验证码的字符，当然也可以用中文的  ,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+  
+  for (var i = 0; i < codeLength; i++) {
+    var charIndex = Math.floor(Math.random() * 10);
+    jscode += selectChar[charIndex];
+  }
+  //alert(code);
+  if (checkCode) {
+    checkCode.className = "jscode codeClass";
+    checkCode.value = jscode;
+  }
+}
+
+//点击登录按钮
+function posLogin(){
+	var code = document.getElementById("codeInput").value;
+	if(jscode==code){
+		document.getElementById("errorMsg").innerHTML="";
+		document.getElementById("loginForm").submit();
+	}else{
+		document.getElementById("errorMsg").innerHTML="验证码不正确！";
+	}	
+}
+
+/**
+ * 初始化加载
+ * 
+ * */
+$(document).ready(initialize);
+
+</script>
+</body>
+</html>

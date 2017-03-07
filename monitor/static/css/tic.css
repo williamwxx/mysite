@@ -1,0 +1,99 @@
+.userInput{
+	width: 200px;
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+	border: 1px solid #ddd;
+}
+
+.pwdInput{
+	width: 200px;
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+	border: 1px solid #ddd;
+}
+
+.codeInput{
+	width: 100px;
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+	border: 1px solid #ddd;
+}
+
+.jscode{
+	font-family: Arial;
+    font-style: italic;
+    color: #4695a6;
+    border: 0;
+    padding: 2px 3px;
+    letter-spacing: 3px;
+    font-weight: bolder;
+}
+
+.codeClass{
+	width: 80px;
+	height:30px;
+	background-color: #0cc4dc;
+	margin-left: 10px;
+	text-indent: 10px;
+	font-size: 20px;
+	cursor: auto;
+}
+
+.loginDiv{
+	width:684px;
+	height:292px;
+	margin:0px auto;
+	margin-top:150px;
+	background: url("../images/ticLogin.png") no-repeat;
+}
+
+.tleft{
+	width:340px;
+	height:292px;
+	line-height:292px;
+	float: left;
+}
+
+.tright{
+	width:340px;
+	height:292px;
+	float: right;
+}
+
+.loginBtn{
+	display: inline-block;
+	width:80px;
+	height:30px;
+	background: url("../images/login_btn.png") no-repeat;
+}
+
+.space1{
+	height: 130px;
+}
+
+.space2{
+	height: 80px;
+}
+
+.logintable{
+	width: 100%;
+}
+
+.logintable tr{
+	height:40px;
+}
+
+.logintable tr .textTd{
+	font-size: 14px;font-weight: bold;
+}
+
+.logintable tr .textSpan{
+	display: inline-block;width: 20px;
+}
+
+.btnDiv{
+	text-align: center;margin-top: 15px;
+}
